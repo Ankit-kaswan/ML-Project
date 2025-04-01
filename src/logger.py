@@ -1,6 +1,8 @@
 import logging
 import os
 from datetime import datetime
+from src.configuration import config
+
 
 class Logger:
     """Singleton Logger for consistent logging across the project."""
@@ -8,7 +10,7 @@ class Logger:
     _logger = None  # Static instance
 
     @staticmethod
-    def get_logger(log_dir="logs", log_level=logging.INFO, logger_name='ml_project_logger'):
+    def get_logger(log_dir=config.LOG_DIR, log_level=logging.INFO, logger_name='ml_project_logger'):
         """Returns a configured logger instance (singleton)."""
 
         if Logger._logger is None:

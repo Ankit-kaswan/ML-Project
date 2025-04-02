@@ -67,7 +67,7 @@ def test_data_ingestion_mocked(mock_config_class, mock_to_csv, mock_makedirs, mo
     data_ingestion.ingestion_config = mock_config  # Override the instance inside
     mock_read_csv.return_value = pd.DataFrame({"A": [1, 3, 5], "B": [2, 4, 6]})
 
-    # # ✅ Create an empty dataset file (important!)
+    # Create an empty dataset file (important!)
     with open(mock_config.dataset_file, "w") as f:
         f.write("A,B\n1,2\n3,4\n5,6")  # Sample data
 
@@ -79,5 +79,5 @@ def test_data_ingestion_mocked(mock_config_class, mock_to_csv, mock_makedirs, mo
     # Verify CSV saving was called correctly
     assert mock_to_csv.call_count == 3  # raw, train, test
     mock_makedirs.assert_called_once()  # Ensure directory is created
-    # ✅ Mock the config class and return the object
+    # Mock the config class and return the object
 

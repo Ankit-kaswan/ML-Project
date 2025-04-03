@@ -8,5 +8,6 @@ scikit-learn
 seaborn
 xgboost
 pathlib
+pytest
 
 -e .

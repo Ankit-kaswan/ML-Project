@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home Page</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container text-center mt-5">
+    <h1>Welcome to the Home Page</h1>
+    <p class="lead">Use our Student Exam Performance Indicator to predict math scores based on input data.</p>
+
+    <!-- Navigation Button -->
+    <a href="{{ url_for('predict_datapoint') }}" class="btn btn-primary mt-3">Go to Prediction Form</a>
+</div>
+</body>
+</html>

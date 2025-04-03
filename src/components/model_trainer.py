@@ -13,7 +13,7 @@ from src.configuration.model_trainer_config import ModelTrainerConfig
 from src.exception import CustomException
 from src.utils import save_object, evaluate_models
 from src.logger import Logger
-
+from src.configuration import config
 
 # Initialize the custom logger
 logger = Logger.get_logger()
@@ -22,6 +22,16 @@ logger = Logger.get_logger()
 class ModelTrainer:
     def __init__(self):
         self.model_trainer_config = ModelTrainerConfig()
+        self.models = {
+            "Random Forest": RandomForestRegressor(),
+            "Decision Tree": DecisionTreeRegressor(),
+            "Gradient Boosting": GradientBoostingRegressor(),
+            "Linear Regression": LinearRegression(),
+            # "XGBRegressor": XGBRegressor(objective="reg:squarederror"),
+            "CatBoosting Regressor": CatBoostRegressor(verbose=False),
+            "AdaBoost Regressor": AdaBoostRegressor(),
+        }
+        self.model_config = config.MODEL_PARAMS
 
     def initiate_model_trainer(self, train_array, test_array):
         try:
@@ -38,54 +48,12 @@ class ModelTrainer:
                 test_array[:, -1],
             )
 
-            models = {
-                "Random Forest": RandomForestRegressor(),
-                "Decision Tree": DecisionTreeRegressor(),
-                "Gradient Boosting": GradientBoostingRegressor(),
-                "Linear Regression": LinearRegression(),
-                # "XGBRegressor": XGBRegressor(objective="reg:squarederror"),
-                "CatBoosting Regressor": CatBoostRegressor(verbose=False),
-                "AdaBoost Regressor": AdaBoostRegressor(),
-            }
-
-            parameters = {
-                "Decision Tree": {
-                    "criterion": ["squared_error", "friedman_mse", "absolute_error", "poisson"],
-                },
-
-                "Random Forest": {
-                    "n_estimators": [8, 16, 32, 64, 128, 256]
-                },
-
-                "Gradient Boosting": {
-                    "learning_rate": [0.1, 0.01, 0.05, 0.001],
-                    "subsample": [0.6, 0.7, 0.75, 0.8, 0.85, 0.9],
-                    "n_estimators": [8, 16, 32, 64, 128, 256],
-                },
-
-                "Linear Regression": {},  # No hyperparameters needed
-
-                "XGBRegressor": {
-                    "learning_rate": [0.1, 0.01, 0.05, 0.001],
-                    "n_estimators": [8, 16, 32, 64, 128, 256],
-                },
-
-                "CatBoosting Regressor": {
-                    "depth": [6, 8, 10],
-                    "learning_rate": [0.01, 0.05, 0.1],
-                    "iterations": [30, 50, 100],
-                },
-
-                "AdaBoost Regressor": {
-                    "learning_rate": [0.1, 0.01, 0.5, 0.001],
-                    "n_estimators": [8, 16, 32, 64, 128, 256],
-                },
-            }
+            parameters = self.model_config
 
             logger.info("Starting model evaluation...")
             model_report = evaluate_models(
                 x_train=x_train, y_train=y_train, x_test=x_test, y_test=y_test,
-                models=models, param_grid=parameters
+                models=self.models, param_grid=parameters
             )
 
             if not model_report:
@@ -94,7 +62,7 @@ class ModelTrainer:
             best_model_name = max(model_report, key=lambda k: model_report[k]["score"])
             best_model_score = model_report[best_model_name]["score"]
 
-            if best_model_name not in models:
+            if best_model_name not in self.models:
                 raise CustomException(f"Best model {best_model_name} not found in models dictionary!")
 
             best_model = model_report[best_model_name]["model"]

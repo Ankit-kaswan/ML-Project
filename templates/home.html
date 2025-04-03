@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Exam Performance Indicator</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <div class="login">
+        <h1 class="text-center">Student Exam Performance Indicator</h1>
+        <form action="{{ url_for('predict_datapoint') }}" method="post">
+            <h3 class="text-center">Student Exam Performance Prediction</h3>
+
+            <!-- Gender Selection -->
+            <div class="form-group">
+                <label>Gender</label>
+                <select class="form-control" name="gender" required>
+                    <option selected disabled value="">Select your Gender</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                </select>
+            </div>
+
+            <!-- Race/Ethnicity -->
+            <div class="form-group">
+                <label>Race or Ethnicity</label>
+                <select class="form-control" name="ethnicity" required>
+                    <option selected disabled value="">Select Ethnicity</option>
+                    <option value="group A">Group A</option>
+                    <option value="group B">Group B</option>
+                    <option value="group C">Group C</option>
+                    <option value="group D">Group D</option>
+                    <option value="group E">Group E</option>
+                </select>
+            </div>
+
+            <!-- Parental Education -->
+            <div class="form-group">
+                <label>Parental Level of Education</label>
+                <select class="form-control" name="parental_level_of_education" required>
+                    <option selected disabled value="">Select Parent Education</option>
+                    <option value="associate's degree">Associate's Degree</option>
+                    <option value="bachelor's degree">Bachelor's Degree</option>
+                    <option value="high school">High School</option>
+                    <option value="master's degree">Master's Degree</option>
+                    <option value="some college">Some College</option>
+                    <option value="some high school">Some High School</option>
+                </select>
+            </div>
+
+            <!-- Lunch Type -->
+            <div class="form-group">
+                <label>Lunch Type</label>
+                <select class="form-control" name="lunch" required>
+                    <option selected disabled value="">Select Lunch Type</option>
+                    <option value="free/reduced">Free/Reduced</option>
+                    <option value="standard">Standard</option>
+                </select>
+            </div>
+
+            <!-- Test Preparation Course -->
+            <div class="form-group">
+                <label>Test Preparation Course</label>
+                <select class="form-control" name="test_preparation_course" required>
+                    <option selected disabled value="">Select Test Course</option>
+                    <option value="none">None</option>
+                    <option value="completed">Completed</option>
+                </select>
+            </div>
+
+            <!-- Reading Score -->
+            <div class="form-group">
+                <label>Reading Score (out of 100)</label>
+                <input class="form-control" type="number" name="reading_score" placeholder="Enter Reading Score" min="0" max="100" required />
+            </div>
+
+            <!-- Writing Score -->
+            <div class="form-group">
+                <label>Writing Score (out of 100)</label>
+                <input class="form-control" type="number" name="writing_score" placeholder="Enter Writing Score" min="0" max="100" required />
+            </div>
+
+            <!-- Submit Button -->
+            <div class="text-center">
+                <input class="btn btn-primary" type="submit" value="Predict Your Maths Score" />
+            </div>
+        </form>
+
+        <!-- Prediction Result -->
+        {% if results is not none %}
+        <h2 class="text-center mt-4">The Prediction is: <strong>{{ results }}</strong></h2>
+        {% endif %}
+    </div>
+</div>
+</body>
+</html>

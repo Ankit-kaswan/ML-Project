@@ -55,7 +55,7 @@ def evaluate_models(x_train, y_train, x_test, y_test, models, param_grid):
 
             # Hyperparameter tuning
             gs = GridSearchCV(
-                model, param_grid.get(model_name, {}), cv=3, scoring='r2', n_jobs=-1, verbose=1
+                model, param_grid.get(model_name, {}), cv=min(3, len(x_train)), scoring='r2', n_jobs=-1, verbose=1
             )
 
             gs.fit(x_train, y_train)
